@@ -1,7 +1,9 @@
 /* General styles */
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    background: linear-gradient(135deg, #ff7e5f, #feb47b, #86a8e7, #7f7fd5);
+    background-size: 300% 300%;
+    animation: gradientAnimation 10s ease infinite;
     color: #f0f0f0;
     margin: 0;
     padding: 0;
@@ -11,7 +13,7 @@ body {
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: url('https://source.unsplash.com/random/1920x1080/?technology,work') no-repeat center center/cover;
+    background: rgba(0, 0, 0, 0.5);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -19,7 +21,7 @@ body {
     align-items: center;
     color: #fff;
     text-align: center;
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.3);
 }
 
 nav {
@@ -186,4 +188,10 @@ footer {
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
