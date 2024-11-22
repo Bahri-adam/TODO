@@ -13,16 +13,19 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a6c1ee);
-            background-size: 200% 200%;
-            animation: gradientAnimation 10s ease infinite;
+            background: url('https://images.unsplash.com/photo-1554123161-6352f2216c06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
         }
         .hero-content {
             text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 50px;
+            border-radius: 15px;
         }
         h1 {
             font-size: 5rem;
-            animation: textGlow 2s infinite alternate;
+            color: #fff;
+            animation: textJump 1.5s ease-in-out infinite alternate;
         }
         #get-organized, #get-thinking {
             padding: 15px 30px;
@@ -36,14 +39,14 @@
             transition: transform 0.3s, box-shadow 0.3s;
             background: linear-gradient(45deg, #ff6b6b, #fbc531);
             background-size: 200% 200%;
-            animation: buttonBackgroundAnimation 4s ease infinite;
+            animation: buttonBackgroundAnimation 4s ease infinite, buttonHoverEffect 1.5s ease-in-out infinite alternate;
         }
-        @keyframes textGlow {
+        @keyframes textJump {
             0% {
-                text-shadow: 0 0 10px #fff, 0 0 20px #ff6b6b, 0 0 30px #ff6b6b;
+                transform: translateY(0);
             }
             100% {
-                text-shadow: 0 0 20px #fff, 0 0 30px #fbc531, 0 0 40px #fbc531;
+                transform: translateY(-10px);
             }
         }
         @keyframes buttonBackgroundAnimation {
@@ -54,10 +57,13 @@
                 background-position: 100% 50%;
             }
         }
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes buttonHoverEffect {
+            0% {
+                transform: perspective(500px) translateY(0px);
+            }
+            100% {
+                transform: perspective(500px) translateY(-5px);
+            }
         }
     </style>
 </head>
@@ -98,12 +104,12 @@
 
             logo.addEventListener("mouseenter", () => {
                 logo.style.transition = "transform 0.5s, text-shadow 0.5s";
-                logo.style.transform = "rotate(5deg) scale(1.1)";
+                logo.style.transform = "translateY(-15px)";
                 logo.style.textShadow = "0 0 30px #fff, 0 0 40px #ff6b6b, 0 0 50px #fbc531";
             });
 
             logo.addEventListener("mouseleave", () => {
-                logo.style.transform = "rotate(0deg) scale(1)";
+                logo.style.transform = "translateY(0)";
                 logo.style.textShadow = "none";
             });
         });
