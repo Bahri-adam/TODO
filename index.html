@@ -3,39 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Awesome To-Do List</title>
+    <title>TaskMaster - Get Started</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .angelic-light {
+            box-shadow: 0 0 30px 15px rgba(255, 255, 150, 0.7);
+            transition: box-shadow 0.5s ease-in-out;
+        }
+    </style>
 </head>
 <body>
     <div class="hero">
-        <nav>
-            <h2 class="logo">Task<span>Master</span></h2>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
         <div class="hero-content">
-            <h1>Organize Your Life, One Task at a Time</h1>
-            <p>Create your ultimate to-do list. Manage, prioritize, and conquer your goals!</p>
-            <button id="get-started">Get Started</button>
+            <h1>TaskMaster</h1>
+            <button id="get-organized">Get Organized</button>
+            <button id="get-thinking">Get Thinking</button>
         </div>
     </div>
-    
-    <div class="todo-container">
-        <h2>Your Tasks</h2>
-        <input type="text" id="task-input" placeholder="Enter a new task...">
-        <button id="add-task-button">Add Task</button>
-        <ul id="task-list"></ul>
-    </div>
 
-    <footer>
-        <p>&copy; 2024 TaskMaster. All rights reserved.</p>
-    </footer>
+    <audio id="opera-music" src="https://cdn.pixabay.com/download/audio/2021/09/04/audio_e97310f9e8.mp3" preload="auto"></audio>
 
-    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttons = document.querySelectorAll("#get-organized, #get-thinking");
+            const music = document.getElementById("opera-music");
+
+            buttons.forEach(button => {
+                button.addEventListener("mouseenter", () => {
+                    button.classList.add("angelic-light");
+                    music.currentTime = 0;
+                    music.play();
+                });
+
+                button.addEventListener("mouseleave", () => {
+                    button.classList.remove("angelic-light");
+                    music.pause();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
