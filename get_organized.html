@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskMaster - Get Organized</title>
+    <title>TaskMaster - Organize Your Tasks</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -20,10 +20,11 @@
         .todo-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            max-width: 700px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
             margin: 60px auto;
             color: #fff;
             position: relative;
@@ -32,10 +33,12 @@
             text-align: center;
             margin-bottom: 25px;
             font-weight: bold;
+            color: #00d4ff;
+            font-size: 2.2rem;
         }
         #task-input {
             padding: 15px;
-            width: 65%;
+            width: 70%;
             margin-right: 10px;
             border: 2px solid #fff;
             border-radius: 8px;
@@ -49,19 +52,17 @@
         }
         #add-task-button {
             padding: 15px;
-            background-color: transparent;
+            background-color: #00d4ff;
             color: #fff;
             border: none;
-            border-radius: 50%;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s, background-color 0.3s;
             font-size: 1.5rem;
         }
         #add-task-button:hover {
-            transform: scale(1.2);
-        }
-        #add-task-button::before {
-            content: "\271A";
+            transform: scale(1.1);
+            background-color: #00a6cc;
         }
         #task-list {
             list-style-type: none;
@@ -75,10 +76,11 @@
             padding: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 10px;
             transition: background-color 0.3s;
             cursor: grab;
+            position: absolute;
         }
         #task-list li:hover {
             background-color: rgba(255, 255, 255, 0.2);
@@ -88,19 +90,20 @@
         }
         .delete-button {
             background-color: transparent;
-            color: #fff;
+            color: #00d4ff;
             border: none;
             padding: 10px;
             border-radius: 50%;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s, color 0.3s;
             font-size: 1.5rem;
         }
         .delete-button:hover {
             transform: scale(1.2);
+            color: #ff7e5f;
         }
         .delete-button::before {
-            content: "\2716";
+            content: "\1F5D1";
         }
 
         @keyframes gradientAnimation {
@@ -115,15 +118,15 @@
         <div class="logo"><span>Task</span>Master</div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
-            <li><a href="get_organized.html">Get Organized</a></li>
+            <li><a href="get_organized.html">Organize Your Tasks</a></li>
             <li><a href="#">Get Thinking</a></li>
         </ul>
     </nav>
 
     <div class="todo-container">
-        <h2>Get Organized - To-Do List</h2>
+        <h2>Organize Your Tasks</h2>
         <input type="text" id="task-input" placeholder="Enter your task here...">
-        <button id="add-task-button"></button>
+        <button id="add-task-button">➕</button>
         <ul id="task-list"></ul>
     </div>
 
@@ -139,6 +142,9 @@
                 const listItem = document.createElement("li");
                 listItem.textContent = taskValue;
                 listItem.draggable = true;
+                listItem.style.position = "absolute";
+                listItem.style.top = `${Math.random() * 80}%`;
+                listItem.style.left = `${Math.random() * 80}%`;
 
                 const deleteButton = document.createElement("button");
                 deleteButton.className = "delete-button";
@@ -150,40 +156,23 @@
                 listItem.appendChild(deleteButton);
                 taskList.appendChild(listItem);
 
-                // Enable dragging
                 listItem.addEventListener("dragstart", function(event) {
-                    event.dataTransfer.setData("text/plain", taskValue);
+                    event.dataTransfer.setData("text/plain", JSON.stringify({ taskValue, top: event.target.style.top, left: event.target.style.left }));
                     setTimeout(() => {
                         listItem.style.display = "none";
                     }, 0);
                 });
 
-                listItem.addEventListener("dragend", function() {
+                listItem.addEventListener("dragend", function(event) {
+                    const data = JSON.parse(event.dataTransfer.getData("text/plain"));
+                    listItem.style.top = data.top;
+                    listItem.style.left = data.left;
                     listItem.style.display = "flex";
                 });
 
                 taskList.addEventListener("dragover", function(event) {
                     event.preventDefault();
-                    const afterElement = getDragAfterElement(taskList, event.clientY);
-                    if (afterElement == null) {
-                        taskList.appendChild(listItem);
-                    } else {
-                        taskList.insertBefore(listItem, afterElement);
-                    }
                 });
-
-                function getDragAfterElement(container, y) {
-                    const draggableElements = [...container.querySelectorAll("li:not([style='display: none;'])")];
-                    return draggableElements.reduce((closest, child) => {
-                        const box = child.getBoundingClientRect();
-                        const offset = y - box.top - box.height / 2;
-                        if (offset < 0 && offset > closest.offset) {
-                            return { offset: offset, element: child };
-                        } else {
-                            return closest;
-                        }
-                    }, { offset: Number.NEGATIVE_INFINITY }).element;
-                }
             }
 
             // Load saved tasks from localStorage
