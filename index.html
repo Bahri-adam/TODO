@@ -75,39 +75,45 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const buttons = document.querySelectorAll("#get-organized, #get-thinking");
-            const logo = document.getElementById("taskmaster-logo");
-            const music = document.getElementById("opera-music");
+    const buttons = document.querySelectorAll("#get-organized, #get-thinking");
+    const logo = document.getElementById("taskmaster-logo");
+    const music = document.getElementById("opera-music");
 
-            buttons.forEach(button => {
-                button.addEventListener("mousemove", (event) => {
-                    const rect = button.getBoundingClientRect();
-                    const x = event.clientX - rect.left;
-                    const y = event.clientY - rect.top;
-                    const xOffset = (x / rect.width - 0.5) * 20;
-                    const yOffset = (y / rect.height - 0.5) * 20;
-                    button.style.transform = `perspective(500px) rotateX(${yOffset}deg) rotateY(${xOffset}deg)`;
-                    music.currentTime = 0;
-                    music.play();
-                });
-
-                button.addEventListener("mouseleave", () => {
-                    button.style.transform = "perspective(500px) rotateX(0deg) rotateY(0deg)";
-                    music.pause();
-                });
-            });
-
-            logo.addEventListener("mouseenter", () => {
-                logo.style.transition = "transform 0.5s, text-shadow 0.5s";
-                logo.style.transform = "translateY(-15px)";
-                logo.style.textShadow = "0 0 30px #fff, 0 0 40px #ff6b6b, 0 0 50px #fbc531";
-            });
-
-            logo.addEventListener("mouseleave", () => {
-                logo.style.transform = "translateY(0)";
-                logo.style.textShadow = "none";
-            });
+    buttons.forEach(button => {
+        button.addEventListener("click", function() {
+            if (button.id === "get-organized") {
+                window.location.href = "get_organized.html";
+            }
         });
+
+        button.addEventListener("mousemove", (event) => {
+            const rect = button.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const xOffset = (x / rect.width - 0.5) * 20;
+            const yOffset = (y / rect.height - 0.5) * 20;
+            button.style.transform = `perspective(500px) rotateX(${yOffset}deg) rotateY(${xOffset}deg)`;
+            music.currentTime = 0;
+            music.play();
+        });
+
+        button.addEventListener("mouseleave", () => {
+            button.style.transform = "perspective(500px) rotateX(0deg) rotateY(0deg)";
+            music.pause();
+        });
+    });
+
+    logo.addEventListener("mouseenter", () => {
+        logo.style.transition = "transform 0.5s, text-shadow 0.5s";
+        logo.style.transform = "translateY(-15px)";
+        logo.style.textShadow = "0 0 30px #fff, 0 0 40px #ff6b6b, 0 0 50px #fbc531";
+    });
+
+    logo.addEventListener("mouseleave", () => {
+        logo.style.transform = "translateY(0)";
+        logo.style.textShadow = "none";
+    });
+});
     </script>
 </body>
 </html>
