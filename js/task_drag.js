@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const taskList = document.getElementById("task-list");
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    // Function to add a task to the DOM and localStorage
     function addTask(taskValue) {
         const listItem = document.createElement("li");
         listItem.textContent = taskValue;
@@ -10,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete-button";
+        deleteButton.innerHTML = "×";  // Using × symbol for delete
         deleteButton.addEventListener("click", function() {
             taskList.removeChild(listItem);
             removeTask(taskValue);
@@ -18,45 +18,75 @@ document.addEventListener("DOMContentLoaded", function() {
         listItem.appendChild(deleteButton);
         taskList.appendChild(listItem);
 
-        let offsetX, offsetY;
+        // Improved drag and drop functionality
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
 
-        // Drag functionality
-        listItem.addEventListener("mousedown", function(event) {
-            offsetX = event.offsetX;
-            offsetY = event.offsetY;
-        });
+        function setTranslate(xPos, yOffset) {
+            listItem.style.transform = `translate3d(${xPos}px, ${yOffset}px, 0)`;
+        }
 
-        listItem.addEventListener("dragstart", function(event) {
-            event.dataTransfer.setData("text/plain", taskValue);
-            setTimeout(() => {
-                listItem.style.opacity = "0.5";
-            }, 0);
-        });
+        function dragStart(e) {
+            if (e.type === "touchstart") {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+            } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
 
-        listItem.addEventListener("dragend", function(event) {
-            listItem.style.opacity = "1";
-            const dropX = event.clientX - offsetX;
-            const dropY = event.clientY - offsetY;
-            listItem.style.position = "absolute";
-            listItem.style.left = `${dropX}px`;
-            listItem.style.top = `${dropY}px`;
-        });
+            if (e.target === listItem) {
+                isDragging = true;
+                listItem.style.cursor = 'grabbing';
+            }
+        }
 
-        taskList.addEventListener("dragover", function(event) {
-            event.preventDefault();
-        });
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+            listItem.style.cursor = 'grab';
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+
+                if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX - initialX;
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                }
+
+                xOffset = currentX;
+                yOffset = currentY;
+                setTranslate(currentX, currentY);
+            }
+        }
+
+        // Mouse events
+        listItem.addEventListener("mousedown", dragStart);
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", dragEnd);
+
+        // Touch events
+        listItem.addEventListener("touchstart", dragStart);
+        document.addEventListener("touchmove", drag);
+        document.addEventListener("touchend", dragEnd);
     }
 
-    // Load saved tasks from localStorage
-    tasks.forEach(task => addTask(task));
-
-    // Save task to localStorage
     function saveTask(task) {
         tasks.push(task);
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Remove task from localStorage
     function removeTask(task) {
         const taskIndex = tasks.indexOf(task);
         if (taskIndex > -1) {
@@ -64,6 +94,9 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.setItem("tasks", JSON.stringify(tasks));
         }
     }
+
+    // Load saved tasks
+    tasks.forEach(task => addTask(task));
 
     // Add new task button event
     document.getElementById("add-task-button").addEventListener("click", function() {
@@ -76,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Enable adding task with 'Enter' key
+    // Enable adding task with Enter key
     document.getElementById("task-input").addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             document.getElementById("add-task-button").click();
