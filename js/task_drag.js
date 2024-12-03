@@ -19,6 +19,13 @@ document.addEventListener("DOMContentLoaded", function() {
         taskList.appendChild(listItem);
 
         // Drag functionality
+        let offsetX, offsetY;
+
+        listItem.addEventListener("mousedown", function(event) {
+            offsetX = event.offsetX;
+            offsetY = event.offsetY;
+        });
+
         listItem.addEventListener("dragstart", function(event) {
             event.dataTransfer.setData("text/plain", taskValue);
             setTimeout(() => {
@@ -28,11 +35,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         listItem.addEventListener("dragend", function(event) {
             listItem.style.opacity = "1";
-            const offsetX = event.clientX - listItem.clientWidth / 2;
-            const offsetY = event.clientY - listItem.clientHeight / 2;
+            const offsetXPosition = event.clientX - offsetX;
+            const offsetYPosition = event.clientY - offsetY;
             listItem.style.position = "absolute";
-            listItem.style.left = `${offsetX}px`;
-            listItem.style.top = `${offsetY}px`;
+            listItem.style.left = `${offsetXPosition}px`;
+            listItem.style.top = `${offsetYPosition}px`;
         });
 
         taskList.addEventListener("dragover", function(event) {
