@@ -3,117 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskMaster - Get Started</title>
+    <title>TaskMaster - Home</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #ff7e5f, #feb47b, #86a8e7, #7f7fd5);
-            background-size: 200% 200%;
-            animation: gradientAnimation 10s ease infinite;
-        }
-        .hero-content {
-            text-align: center;
-        }
-        h1 {
-            font-size: 5rem;
-            color: #fff;
-            animation: textJump 1.5s ease-in-out infinite alternate;
-        }
-        #get-organized, #get-thinking {
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            background: linear-gradient(45deg, #ff6b6b, #fbc531);
-            background-size: 200% 200%;
-            animation: buttonBackgroundAnimation 4s ease infinite;
-        }
-        @keyframes textJump {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-10px);
-            }
-        }
-        @keyframes buttonBackgroundAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-    </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="hero-content">
-            <h1 id="taskmaster-logo">TaskMaster</h1>
-            <button id="get-organized">Get Organized</button>
-            <button id="get-thinking">Get Thinking</button>
-        </div>
+    <nav>
+        <div class="logo"><span>Task</span>Master</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="get_organized.html">Get Organized</a></li>
+            <li><a href="get_thinking.html">Get Thinking</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome to TaskMaster!</h1>
+        <p>Select one of the options above to start organizing or exploring your thoughts.</p>
     </div>
 
-    <audio id="opera-music" src="https://cdn.pixabay.com/download/audio/2021/09/04/audio_e97310f9e8.mp3" preload="auto"></audio>
-
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    const buttons = document.querySelectorAll("#get-organized, #get-thinking");
-    const logo = document.getElementById("taskmaster-logo");
-    const music = document.getElementById("opera-music");
+        document.addEventListener("DOMContentLoaded", () => {
+            const thoughtInput = document.getElementById("thought-input");
+            const thoughtsContainer = document.getElementById("thoughts-container");
 
-    buttons.forEach(button => {
-        button.addEventListener("click", function() {
-            if (button.id === "get-organized") {
-                window.location.href = "get_organized.html";
+            thoughtInput.addEventListener("keypress", (event) => {
+                if (event.key === "Enter") {
+                    const thoughtValue = thoughtInput.value.trim();
+                    if (thoughtValue !== "") {
+                        addThought(thoughtValue);
+                        thoughtInput.value = "";
+                    }
+                }
+            });
+
+            function addThought(thought) {
+                const thoughtElement = document.createElement("div");
+                thoughtElement.classList.add("thought");
+                thoughtElement.textContent = thought;
+                thoughtsContainer.appendChild(thoughtElement);
+
+                // Scroll to the latest thought smoothly
+                thoughtElement.scrollIntoView({ behavior: "smooth" });
             }
         });
-
-        button.addEventListener("mousemove", (event) => {
-            const rect = button.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            const xOffset = (x / rect.width - 0.5) * 20;
-            const yOffset = (y / rect.height - 0.5) * 20;
-            button.style.transform = `perspective(500px) rotateX(${yOffset}deg) rotateY(${xOffset}deg)`;
-            music.currentTime = 0;
-            music.play();
-        });
-
-        button.addEventListener("mouseleave", () => {
-            button.style.transform = "perspective(500px) rotateX(0deg) rotateY(0deg)";
-            music.pause();
-        });
-    });
-
-    logo.addEventListener("mouseenter", () => {
-        logo.style.transition = "transform 0.5s, text-shadow 0.5s";
-        logo.style.transform = "translateY(-15px)";
-        logo.style.textShadow = "0 0 30px #fff, 0 0 40px #ff6b6b, 0 0 50px #fbc531";
-    });
-
-    logo.addEventListener("mouseleave", () => {
-        logo.style.transform = "translateY(0)";
-        logo.style.textShadow = "none";
-    });
-});
     </script>
 </body>
 </html>
