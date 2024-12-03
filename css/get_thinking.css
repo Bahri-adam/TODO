@@ -110,3 +110,15 @@ body {
         transform: scale(2);
     }
 }
+
+/* Sparks Effect */
+.spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: #ffcc00;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 1s ease-out, opacity 1s ease-out;
+    opacity: 1;
+}
