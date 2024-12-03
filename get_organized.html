@@ -26,6 +26,7 @@
             max-width: 700px;
             margin: 60px auto;
             color: #fff;
+            position: relative;
         }
         .todo-container h2 {
             text-align: center;
@@ -48,16 +49,19 @@
         }
         #add-task-button {
             padding: 15px;
-            background-color: #28a745;
-            color: white;
+            background-color: transparent;
+            color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: transform 0.3s;
+            font-size: 1.5rem;
         }
         #add-task-button:hover {
-            background-color: #218838;
-            transform: scale(1.05);
+            transform: scale(1.2);
+        }
+        #add-task-button::before {
+            content: "\271A";
         }
         #task-list {
             list-style-type: none;
@@ -74,22 +78,29 @@
             border-radius: 8px;
             margin-bottom: 10px;
             transition: background-color 0.3s;
+            cursor: grab;
         }
         #task-list li:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
+        #task-list li:active {
+            cursor: grabbing;
+        }
         .delete-button {
-            background-color: #dc3545;
-            color: white;
+            background-color: transparent;
+            color: #fff;
             border: none;
             padding: 10px;
-            border-radius: 8px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: transform 0.3s;
+            font-size: 1.5rem;
         }
         .delete-button:hover {
-            background-color: #c82333;
-            transform: scale(1.1);
+            transform: scale(1.2);
+        }
+        .delete-button::before {
+            content: "\2716";
         }
 
         @keyframes gradientAnimation {
@@ -112,13 +123,13 @@
     <div class="todo-container">
         <h2>Get Organized - To-Do List</h2>
         <input type="text" id="task-input" placeholder="Enter your task here...">
-        <button id="add-task-button">Add Task</button>
+        <button id="add-task-button"></button>
         <ul id="task-list"></ul>
     </div>
 
     <script src="js/script.js"></script>
     <script>
-        // Add persistence using LocalStorage
+        // Add persistence using LocalStorage and enable dragging of tasks
         document.addEventListener("DOMContentLoaded", function() {
             const taskList = document.getElementById("task-list");
             const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -127,9 +138,9 @@
             function addTask(taskValue) {
                 const listItem = document.createElement("li");
                 listItem.textContent = taskValue;
+                listItem.draggable = true;
 
                 const deleteButton = document.createElement("button");
-                deleteButton.textContent = "Delete";
                 deleteButton.className = "delete-button";
                 deleteButton.addEventListener("click", function() {
                     taskList.removeChild(listItem);
@@ -138,6 +149,41 @@
 
                 listItem.appendChild(deleteButton);
                 taskList.appendChild(listItem);
+
+                // Enable dragging
+                listItem.addEventListener("dragstart", function(event) {
+                    event.dataTransfer.setData("text/plain", taskValue);
+                    setTimeout(() => {
+                        listItem.style.display = "none";
+                    }, 0);
+                });
+
+                listItem.addEventListener("dragend", function() {
+                    listItem.style.display = "flex";
+                });
+
+                taskList.addEventListener("dragover", function(event) {
+                    event.preventDefault();
+                    const afterElement = getDragAfterElement(taskList, event.clientY);
+                    if (afterElement == null) {
+                        taskList.appendChild(listItem);
+                    } else {
+                        taskList.insertBefore(listItem, afterElement);
+                    }
+                });
+
+                function getDragAfterElement(container, y) {
+                    const draggableElements = [...container.querySelectorAll("li:not([style='display: none;'])")];
+                    return draggableElements.reduce((closest, child) => {
+                        const box = child.getBoundingClientRect();
+                        const offset = y - box.top - box.height / 2;
+                        if (offset < 0 && offset > closest.offset) {
+                            return { offset: offset, element: child };
+                        } else {
+                            return closest;
+                        }
+                    }, { offset: Number.NEGATIVE_INFINITY }).element;
+                }
             }
 
             // Load saved tasks from localStorage
