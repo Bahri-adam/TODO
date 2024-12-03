@@ -51,8 +51,8 @@
             animation: glow 2s infinite alternate;
         }
         #task-input:focus {
-            box-shadow: 0 0 15px 5px #00d4ff;
-        }
+    box-shadow: none;
+}
         #add-task-button {
             padding: 15px;
             background-color: transparent;
@@ -65,26 +65,26 @@
             animation: glow 2s infinite alternate;
         }
         #add-task-button:hover {
-            transform: scale(1.3);
-            box-shadow: 0 0 15px 5px #00d4ff;
-        }
+    box-shadow: 0 0 25px 10px #00d4ff;
+}
         #task-list {
             list-style-type: none;
             padding: 0;
             margin-top: 25px;
         }
         #task-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s;
-            cursor: move;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+    cursor: move;
+    position: absolute;
+}
         #task-list li:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
@@ -103,9 +103,8 @@
             animation: glow 2s infinite alternate;
         }
         .delete-button:hover {
-            transform: scale(1.3);
-            box-shadow: 0 0 15px 5px #ff4c4c;
-        }
+    box-shadow: 0 0 25px 10px gold;
+}
         .delete-button::before {
             content: "\2716";
         }
@@ -161,15 +160,18 @@
 
                 // Drag functionality
                 listItem.addEventListener("dragstart", function(event) {
-                    event.dataTransfer.setData("text/plain", event.target.id);
-                    setTimeout(() => {
-                        listItem.style.display = "none";
-                    }, 0);
-                });
+    event.dataTransfer.setData("text", event.target.id);
+    setTimeout(() => {
+        listItem.style.opacity = "0.5";
+    }, 0);
+});
 
                 listItem.addEventListener("dragend", function() {
-                    listItem.style.display = "flex";
-                });
+    listItem.style.opacity = "1";
+    listItem.style.position = "absolute";
+    listItem.style.top = `${event.pageY}px`;
+    listItem.style.left = `${event.pageX}px`;
+});
 
                 taskList.addEventListener("dragover", function(event) {
                     event.preventDefault();
