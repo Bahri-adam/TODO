@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskMaster - Organize Your Tasks</title>
+    <title>TaskMaster - Get Organized</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -33,9 +33,10 @@
             text-align: center;
             margin-bottom: 25px;
             font-weight: bold;
-            color: #ffffff;
+            color: #00d4ff;
             font-size: 2.5rem;
             text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            animation: glow 2s infinite alternate;
         }
         #task-input {
             padding: 15px;
@@ -47,9 +48,10 @@
             background: transparent;
             color: #fff;
             transition: box-shadow 0.3s;
+            animation: glow 2s infinite alternate;
         }
         #task-input:focus {
-            box-shadow: 0 0 10px 5px #00d4ff;
+            box-shadow: 0 0 15px 5px #00d4ff;
         }
         #add-task-button {
             padding: 15px;
@@ -58,11 +60,13 @@
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             font-size: 2rem;
+            animation: glow 2s infinite alternate;
         }
         #add-task-button:hover {
-            transform: scale(1.2);
+            transform: scale(1.3);
+            box-shadow: 0 0 15px 5px #00d4ff;
         }
         #task-list {
             list-style-type: none;
@@ -79,8 +83,7 @@
             border-radius: 12px;
             margin-bottom: 10px;
             transition: background-color 0.3s;
-            cursor: grab;
-            position: relative;
+            cursor: move;
         }
         #task-list li:hover {
             background-color: rgba(255, 255, 255, 0.2);
@@ -95,12 +98,13 @@
             padding: 10px;
             border-radius: 50%;
             cursor: pointer;
-            transition: transform 0.3s, color 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             font-size: 1.8rem;
+            animation: glow 2s infinite alternate;
         }
         .delete-button:hover {
-            transform: scale(1.2);
-            color: #ff4c4c;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px 5px #ff4c4c;
         }
         .delete-button::before {
             content: "\2716";
@@ -111,6 +115,10 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff; }
+            100% { text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; }
+        }
     </style>
 </head>
 <body>
@@ -118,21 +126,19 @@
         <div class="logo"><span>Task</span>Master</div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
-            <li><a href="get_organized.html">Organize Your Tasks</a></li>
+            <li><a href="get_organized.html">Get Organized</a></li>
             <li><a href="#">Get Thinking</a></li>
         </ul>
     </nav>
 
     <div class="todo-container">
-        <h2>Organize Your Tasks</h2>
+        <h2>GET ORGANIZED</h2>
         <input type="text" id="task-input" placeholder="Enter your task here...">
         <button id="add-task-button">+</button>
         <ul id="task-list"></ul>
     </div>
 
-    <script src="js/script.js"></script>
     <script>
-        // Add persistence using LocalStorage and enable dragging of tasks
         document.addEventListener("DOMContentLoaded", function() {
             const taskList = document.getElementById("task-list");
             const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -155,14 +161,14 @@
 
                 // Drag functionality
                 listItem.addEventListener("dragstart", function(event) {
-                    event.dataTransfer.setData("text/plain", taskValue);
+                    event.dataTransfer.setData("text/plain", event.target.id);
                     setTimeout(() => {
-                        listItem.style.opacity = "0.5";
+                        listItem.style.display = "none";
                     }, 0);
                 });
 
                 listItem.addEventListener("dragend", function() {
-                    listItem.style.opacity = "1";
+                    listItem.style.display = "flex";
                 });
 
                 taskList.addEventListener("dragover", function(event) {
@@ -171,9 +177,9 @@
 
                 taskList.addEventListener("drop", function(event) {
                     event.preventDefault();
-                    const taskValue = event.dataTransfer.getData("text/plain");
-                    const listItem = document.querySelector(`li:contains('${taskValue}')`);
-                    taskList.appendChild(listItem);
+                    const id = event.dataTransfer.getData("text/plain");
+                    const draggable = document.getElementById(id);
+                    taskList.appendChild(draggable);
                 });
             }
 
