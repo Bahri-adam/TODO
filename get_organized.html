@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster - Get Organized</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo"><span>Task</span>Master</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="get_organized.html">Get Organized</a></li>
+            <li><a href="#">Get Thinking</a></li>
+        </ul>
+    </nav>
+
+    <div class="todo-container">
+        <h2>Get Organized - To-Do List</h2>
+        <input type="text" id="task-input" placeholder="Enter your task here...">
+        <button id="add-task-button">Add Task</button>
+        <ul id="task-list"></ul>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Add persistence using LocalStorage
+        document.addEventListener("DOMContentLoaded", function() {
+            const taskList = document.getElementById("task-list");
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            // Function to add a task to the DOM and localStorage
+            function addTask(taskValue) {
+                const listItem = document.createElement("li");
+                listItem.textContent = taskValue;
+
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.className = "delete-button";
+                deleteButton.addEventListener("click", function() {
+                    taskList.removeChild(listItem);
+                    removeTask(taskValue);
+                });
+
+                listItem.appendChild(deleteButton);
+                taskList.appendChild(listItem);
+            }
+
+            // Load saved tasks from localStorage
+            tasks.forEach(task => addTask(task));
+
+            // Save task to localStorage
+            function saveTask(task) {
+                tasks.push(task);
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+            }
+
+            // Remove task from localStorage
+            function removeTask(task) {
+                const taskIndex = tasks.indexOf(task);
+                if (taskIndex > -1) {
+                    tasks.splice(taskIndex, 1);
+                    localStorage.setItem("tasks", JSON.stringify(tasks));
+                }
+            }
+
+            // Add new task button event
+            document.getElementById("add-task-button").addEventListener("click", function() {
+                const taskInput = document.getElementById("task-input");
+                const taskValue = taskInput.value.trim();
+                if (taskValue) {
+                    addTask(taskValue);
+                    saveTask(taskValue);
+                    taskInput.value = "";
+                }
+            });
+
+            // Enable adding task with 'Enter' key
+            document.getElementById("task-input").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    document.getElementById("add-task-button").click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
