@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         thoughtsContainer.appendChild(thoughtElement);
+        createSparks(thoughtElement);
 
         // Scroll to the latest thought smoothly
         thoughtElement.scrollIntoView({ behavior: "smooth" });
@@ -58,4 +59,35 @@ document.addEventListener("DOMContentLoaded", () => {
             trail.remove();
         }, 1000); // Trail lasts for 1 second
     });
+
+    // Create Sparks Effect
+    function createSparks(targetElement) {
+        for (let i = 0; i < 20; i++) { // Number of sparks
+            const spark = document.createElement("div");
+            spark.classList.add("spark");
+
+            // Randomize position and movement direction
+            const randomAngle = Math.random() * 2 * Math.PI;
+            const randomDistance = Math.random() * 50;
+
+            const offsetX = Math.cos(randomAngle) * randomDistance;
+            const offsetY = Math.sin(randomAngle) * randomDistance;
+
+            spark.style.left = `${targetElement.offsetLeft + targetElement.clientWidth / 2}px`;
+            spark.style.top = `${targetElement.offsetTop + targetElement.clientHeight / 2}px`;
+
+            document.body.appendChild(spark);
+
+            // Animate the spark to fly outward
+            setTimeout(() => {
+                spark.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+                spark.style.opacity = 0;
+            }, 10);
+
+            // Remove the spark after the animation
+            setTimeout(() => {
+                spark.remove();
+            }, 1000);
+        }
+    }
 });
