@@ -6,6 +6,98 @@
     <title>TaskMaster - Get Organized</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b, #86a8e7, #7f7fd5);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+        .todo-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: 60px auto;
+            color: #fff;
+        }
+        .todo-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        #task-input {
+            padding: 15px;
+            width: 65%;
+            margin-right: 10px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            outline: none;
+            background: transparent;
+            color: #fff;
+            transition: box-shadow 0.3s;
+        }
+        #task-input:focus {
+            box-shadow: 0 0 10px 5px #00d4ff;
+        }
+        #add-task-button {
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        #add-task-button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        #task-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 25px;
+        }
+        #task-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        #task-list li:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
 </head>
 <body>
     <nav>
