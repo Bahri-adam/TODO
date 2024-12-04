@@ -42,7 +42,8 @@ body {
 .mirrored-text {
     display: inline-block;
     font-size: 2rem;
-    margin: 5px;
+    margin: 0.2em;
+    line-height: 1.5;
     animation: textGlow 1s ease-in-out;
 }
 
@@ -58,14 +59,14 @@ body {
 /* Cutting Trail Effect */
 .cutting-trail {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
+    width: 15px;
+    height: 15px;
+    background: radial-gradient(circle, #ffcc00 0%, rgba(255, 255, 255, 0) 60%);
     border-radius: 50%;
     pointer-events: none;
     animation: trailGlow 2s ease-out forwards;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.8);
 }
 
 @keyframes trailGlow {
@@ -76,5 +77,82 @@ body {
     100% {
         opacity: 0;
         transform: scale(3);
+    }
+}
+
+/* Input Box */
+#thought-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    font-size: 2rem;
+    color: #fff;
+    outline: none;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    margin-bottom: 30px;
+    transition: border-color 0.3s;
+}
+
+#thought-input:focus {
+    border-color: #9370DB; /* Subtle purple glow on focus */
+}
+
+#thought-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 50px;
+}
+
+/* Invisible Navigation */
+.invisible-nav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.2;
+    transition: opacity 0.3s;
+}
+
+.invisible-nav:hover {
+    opacity: 0.7;
+}
+
+.invisible-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.invisible-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* Thought Styling */
+.thought {
+    font-size: 2rem;
+    color: #fff;
+    text-align: center;
+    margin: 20px 0;
+    animation: glowAnimation 1.5s ease-in-out;
+    text-shadow: 0px 0px 10px #fff;
+    transition: transform 0.3s, color 0.3s;
+}
+
+@keyframes glowAnimation {
+    0% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+    }
+    100% {
+        text-shadow: 0 0 20px #00f, 0 0 30px #00f, 0 0 40px #00f;
     }
 }
