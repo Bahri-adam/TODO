@@ -1,132 +1,138 @@
 body {
-    background-color: #000; /* Solid black background */
-    color: #fff; /* White text color for contrast */
+    background-color: #000;
+    color: #fff;
     font-family: 'Roboto', sans-serif;
     margin: 0;
-    overflow: hidden;
+    overflow-y: scroll;
     height: 100vh;
     position: relative;
+    box-shadow: inset 0 0 100px 50px rgba(255, 255, 255, 0.05);
+    animation: ambientGlow 6s ease-in-out infinite alternate;
 }
 
-/* Main Container */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100%;
-    text-align: center;
+/* Background Lighting Effect */
+.background-glow {
+    box-shadow: 0 0 100px 30px rgba(255, 255, 255, 0.1);
+    transition: box-shadow 0.8s ease-out;
 }
 
-/* Invisible Navigation */
 .invisible-nav {
     position: absolute;
     top: 10px;
-    left: 20px;
-    opacity: 0.3;
-    transition: opacity 0.3s ease-in-out;
+    right: 10px;
+    opacity: 0.2;
+    transition: opacity 0.3s;
 }
 
 .invisible-nav:hover {
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .invisible-nav ul {
     list-style: none;
-    padding: 0;
-}
-
-.invisible-nav li {
-    margin: 10px 0;
+    display: flex;
+    gap: 20px;
 }
 
 .invisible-nav a {
-    color: #9370DB; /* Light purple for contrast */
+    color: #fff;
     text-decoration: none;
     font-size: 1rem;
 }
 
-/* Input Box */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    width: 100%;
+}
+
 #thought-input {
     background: transparent;
-    border: 2px solid #9370DB; /* Subtle purple border */
-    font-size: 1.5rem;
+    border: none;
+    border-bottom: 2px solid #fff;
+    font-size: 2rem;
     color: #fff;
-    padding: 10px;
     outline: none;
     text-align: center;
     width: 80%;
     max-width: 600px;
     margin-bottom: 30px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-#thought-input:focus {
-    border-color: #fff; /* White border on focus */
-    box-shadow: 0 0 20px #9370DB; /* Glow effect */
 }
 
 #thought-input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* Mirrored Text */
-.mirrored-text {
-    display: inline-block;
-    font-size: 2rem;
-    margin: 0.1em;
-    animation: textGlow 1.5s ease-in-out;
+#thoughts-container {
+    width: 80%;
+    max-width: 800px;
+    margin-top: 20px;
 }
 
-@keyframes textGlow {
-    0% {
-        text-shadow: 0 0 10px #fff;
-    }
-    100% {
-        text-shadow: 0 0 20px #9370DB; /* Soft purple glow */
-    }
-}
-
-/* Cutting Trail Effect */
-.cutting-trail {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 60%);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: trailGlow 1.5s ease-out forwards;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 30px 15px rgba(255, 255, 255, 0.8);
-}
-
-@keyframes trailGlow {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(3);
-    }
-}
-
-/* Thought Styling */
 .thought {
     font-size: 2rem;
     color: #fff;
+    text-align: center;
     margin: 20px 0;
     animation: glowAnimation 1.5s ease-in-out;
-    text-shadow: 0 0 10px #fff;
+    text-shadow: 0px 0px 10px #fff;
     transition: transform 0.3s, color 0.3s;
 }
 
 @keyframes glowAnimation {
     0% {
-        text-shadow: 0 0 10px #fff;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
     }
     100% {
-        text-shadow: 0 0 20px #9370DB; /* Soft purple glow for thoughts */
+        text-shadow: 0 0 20px #00f, 0 0 30px #00f, 0 0 40px #00f;
     }
+}
+
+/* Trail Effect */
+.trail {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.8;
+    animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+/* Subtle ambient glow animation */
+@keyframes ambientGlow {
+    0% {
+        box-shadow: inset 0 0 100px 50px rgba(255, 255, 255, 0.05);
+    }
+    50% {
+        box-shadow: inset 0 0 150px 75px rgba(255, 255, 255, 0.1);
+    }
+    100% {
+        box-shadow: inset 0 0 100px 50px rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* Sparks Effect */
+.spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: #ffcc00;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 1s ease-out, opacity 1s ease-out;
+    opacity: 1;
 }
