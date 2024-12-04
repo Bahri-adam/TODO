@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 thoughtInput.value = "";
                 reactiveBackgroundLight();
             }
+        } else {
+            createKeyGlow();
         }
     });
 
@@ -30,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         thoughtsContainer.appendChild(thoughtElement);
-        createSparks(thoughtElement);
 
         // Scroll to the latest thought smoothly
         thoughtElement.scrollIntoView({ behavior: "smooth" });
@@ -46,48 +47,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 800); // Glow lasts for 800ms
     }
 
-    // Light Trail Effect
-    document.addEventListener("mousemove", (event) => {
-        const trail = document.createElement("div");
-        trail.classList.add("trail");
-        trail.style.left = `${event.pageX}px`;
-        trail.style.top = `${event.pageY}px`;
+    // Key Glow Effect
+    function createKeyGlow() {
+        const glow = document.createElement("div");
+        glow.classList.add("key-glow");
 
-        document.body.appendChild(trail);
+        // Position the glow at a random spot near the center for each keypress
+        glow.style.left = `${window.innerWidth / 2 + (Math.random() - 0.5) * 200}px`;
+        glow.style.top = `${window.innerHeight / 2 + (Math.random() - 0.5) * 200}px`;
 
+        document.body.appendChild(glow);
+
+        // Remove the glow after the animation ends
         setTimeout(() => {
-            trail.remove();
-        }, 1000); // Trail lasts for 1 second
-    });
-
-    // Create Sparks Effect
-    function createSparks(targetElement) {
-        for (let i = 0; i < 20; i++) { // Number of sparks
-            const spark = document.createElement("div");
-            spark.classList.add("spark");
-
-            // Randomize position and movement direction
-            const randomAngle = Math.random() * 2 * Math.PI;
-            const randomDistance = Math.random() * 50;
-
-            const offsetX = Math.cos(randomAngle) * randomDistance;
-            const offsetY = Math.sin(randomAngle) * randomDistance;
-
-            spark.style.left = `${targetElement.offsetLeft + targetElement.clientWidth / 2}px`;
-            spark.style.top = `${targetElement.offsetTop + targetElement.clientHeight / 2}px`;
-
-            document.body.appendChild(spark);
-
-            // Animate the spark to fly outward
-            setTimeout(() => {
-                spark.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-                spark.style.opacity = 0;
-            }, 10);
-
-            // Remove the spark after the animation
-            setTimeout(() => {
-                spark.remove();
-            }, 1000);
-        }
+            glow.remove();
+        }, 1000);
     }
 });
