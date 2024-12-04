@@ -82,17 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
         return color;
     }
 
-    // Mouse Trail Effect
+    // Cutting Trail Effect
     document.addEventListener("mousemove", (event) => {
-        const trail = document.createElement("div");
-        trail.classList.add("trail");
-        trail.style.left = `${event.pageX}px`;
-        trail.style.top = `${event.pageY}px`;
+        const cuttingTrail = document.createElement("div");
+        cuttingTrail.classList.add("cutting-trail");
+        cuttingTrail.style.left = `${event.pageX}px`;
+        cuttingTrail.style.top = `${event.pageY}px`;
 
-        document.body.appendChild(trail);
+        document.body.appendChild(cuttingTrail);
 
         setTimeout(() => {
-            trail.remove();
-        }, 1500); // Trail lasts for 1.5 seconds
+            cuttingTrail.remove();
+        }, 2000); // Trail lasts for 2 seconds
     });
 });
