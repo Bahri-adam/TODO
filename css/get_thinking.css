@@ -55,27 +55,26 @@ body {
     }
 }
 
-/* Trail Effect */
-.trail {
+/* Cutting Trail Effect */
+.cutting-trail {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #ffcc00; /* Golden color */
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     pointer-events: none;
-    opacity: 0.8;
-    animation: fadeOutTrail 1.5s ease-out forwards;
+    animation: trailGlow 2s ease-out forwards;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px 5px #ffcc00;
+    box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.8);
 }
 
-@keyframes fadeOutTrail {
+@keyframes trailGlow {
     0% {
         opacity: 1;
         transform: scale(1);
     }
     100% {
         opacity: 0;
-        transform: scale(2);
+        transform: scale(3);
     }
 }
