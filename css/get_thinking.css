@@ -38,76 +38,43 @@ body {
     }
 }
 
-.invisible-nav {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    opacity: 0.2;
-    transition: opacity 0.3s;
-}
-
-.invisible-nav:hover {
-    opacity: 0.7;
-}
-
-.invisible-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-.invisible-nav a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1rem;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
-    width: 100%;
-}
-
-#thought-input {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #fff;
+/* Mirrored Text */
+.mirrored-text {
+    display: inline-block;
     font-size: 2rem;
-    color: #fff;
-    outline: none;
-    text-align: center;
-    width: 80%;
-    max-width: 600px;
-    margin-bottom: 30px;
+    margin: 5px;
+    animation: textGlow 1s ease-in-out;
 }
 
-#thought-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-#thoughts-container {
-    width: 80%;
-    max-width: 800px;
-    margin-top: 20px;
-}
-
-.thought {
-    font-size: 2rem;
-    color: #fff;
-    text-align: center;
-    margin: 20px 0;
-    animation: glowAnimation 1.5s ease-in-out;
-    text-shadow: 0px 0px 10px #fff;
-    transition: transform 0.3s, color 0.3s;
-}
-
-@keyframes glowAnimation {
+@keyframes textGlow {
     0% {
-        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+        text-shadow: 0 0 10px #fff;
     }
     100% {
-        text-shadow: 0 0 20px #00f, 0 0 30px #00f, 0 0 40px #00f;
+        text-shadow: 0 0 20px #fff;
+    }
+}
+
+/* Trail Effect */
+.trail {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.8;
+    animation: fadeOut 1s ease-out forwards;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2);
     }
 }
