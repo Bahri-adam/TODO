@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
         thoughtElement.classList.add("thought");
         thoughtElement.textContent = thought;
 
-        // Word Expansion Animation on hover
         thoughtElement.addEventListener("mouseenter", () => {
             thoughtElement.style.transform = "scale(1.1)";
             thoughtElement.style.color = Math.random() > 0.5 ? '#DAA520' : '#9370DB'; // Gold or Purple
@@ -33,8 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         thoughtsContainer.appendChild(thoughtElement);
-
-        // Scroll to the latest thought smoothly
         thoughtElement.scrollIntoView({ behavior: "smooth" });
     }
 
@@ -45,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             body.classList.remove("background-glow");
-        }, 800); // Glow lasts for 800ms
+        }, 800);
     }
 
     // Key Glow Effect
@@ -85,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return color;
     }
 
-    // Light Trail Effect
+    // Mouse Trail Effect
     document.addEventListener("mousemove", (event) => {
         const trail = document.createElement("div");
         trail.classList.add("trail");
@@ -96,6 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             trail.remove();
-        }, 1000); // Trail lasts for 1 second
+        }, 1500); // Trail lasts for 1.5 seconds
     });
 });
