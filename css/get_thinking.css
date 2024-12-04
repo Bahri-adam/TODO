@@ -1,112 +1,28 @@
+
 body {
     background-color: #000;
     color: #fff;
     font-family: 'Roboto', sans-serif;
     margin: 0;
+    overflow-y: scroll;
     height: 100vh;
-    overflow-y: auto;
+    position: relative;
 }
 
-.container {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 50px 20px;
-    min-height: 100vh;
-}
-
-/* Input Styling */
-#thought-input {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #fff;
-    font-size: 1.5rem;
-    color: #fff;
-    outline: none;
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 10px;
-    text-align: left;
-    transition: border-color 0.3s;
-}
-
-#thought-input:focus {
-    border-color: #9370DB;
-}
-
-#thought-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* Thought Display */
-.thought-display {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 40px;
-}
-
-.thought {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: flex-start;
-    margin: 10px 0;
-    line-height: 1.5;
-}
-
-/* Individual Letters */
-.letter {
-    display: inline-block;
-    font-size: 2rem;
-    animation: textGlow 1s ease-in-out;
-    margin: 0 2px;
-}
-
-/* Navigation */
-.nav {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
-}
-
-.nav a {
-    color: #fff;
-    text-decoration: none;
-    opacity: 0.7;
-    transition: opacity 0.3s;
-    display: block;
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-}
-
-.nav a:hover {
-    opacity: 1;
-}
-
-/* Animation Keyframes */
-@keyframes textGlow {
-    0% {
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    }
-    50% {
-        text-shadow: 0 0 20px rgba(255, 255, 255, 1);
-    }
-    100% {
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    }
+/* Background Lighting Effect */
+.background-glow {
+    box-shadow: 0 0 100px 30px rgba(255, 255, 255, 0.1);
+    transition: box-shadow 0.8s ease-out;
 }
 
 /* Key Glow Effect */
 .key-glow {
-    position: fixed;
-    pointer-events: none;
+    position: absolute;
     width: 100px;
     height: 100px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
     animation: keyGlowAnimation 1s ease-out;
     z-index: 1;
     transform: translate(-50%, -50%);
@@ -114,11 +30,53 @@ body {
 
 @keyframes keyGlowAnimation {
     0% {
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
         opacity: 1;
     }
     100% {
-        transform: translate(-50%, -50%) scale(2);
+        transform: scale(2);
         opacity: 0;
+    }
+}
+
+/* Mirrored Text */
+.mirrored-text {
+    display: inline-block;
+    font-size: 2rem;
+    margin: 5px;
+    animation: textGlow 1s ease-in-out;
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 0 0 10px #fff;
+    }
+    100% {
+        text-shadow: 0 0 20px #fff;
+    }
+}
+
+/* Trail Effect */
+.trail {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffcc00; /* Golden color */
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.8;
+    animation: fadeOutTrail 1.5s ease-out forwards;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px 5px #ffcc00;
+}
+
+@keyframes fadeOutTrail {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2);
     }
 }
